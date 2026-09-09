@@ -129,6 +129,8 @@ Usar rótulos em negrito e valores em fonte normal.
 
 Não usar preenchimento colorido.
 
+Preservar o posicionamento vigente deste bloco e tratá-lo como componente prioritário de regressão visual. A validação deverá confirmar ausência de sobreposição, posição correta em relação ao cabeçalho, larguras e mesclagens, quebra adequada de texto e estabilidade na renderização do ambiente. Não alterar o posicionamento por precaução; corrigir somente diante de defeito observável.
+
 ## Tabelas do conteúdo
 
 - estilo de grade simples;
