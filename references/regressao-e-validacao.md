@@ -74,6 +74,22 @@ Para novo DOCX sem arquivo-base, confirmar:
 - corpo em preto e branco;
 - ausência de tabela/célula externa envolvendo o corpo da modelagem.
 
+### Regressão prioritária do bloco de metadados
+
+Tratar o bloco de metadados como componente prioritário de regressão visual por utilizar posicionamento específico no DOCX.
+
+Preservar primeiro o posicionamento vigente. Não deslocar, simplificar ou reconstruir o bloco apenas por precaução. Corrigir somente quando a renderização demonstrar defeito observável.
+
+Em cada validação aplicável, confirmar no mínimo:
+
+- ausência de sobreposição;
+- posição correta em relação ao cabeçalho;
+- larguras relativas e mesclagens previstas;
+- quebra adequada de texto em rótulos e valores;
+- estabilidade na renderização utilizada pelo ambiente.
+
+Quando houver defeito, corrigir o gerador ou a especificação correspondente e renderizar novamente antes da entrega.
+
 ## Regressão por arquétipo
 
 Antes de alterar o gerador de forma estrutural, gerar pelo menos três amostras neutras:
