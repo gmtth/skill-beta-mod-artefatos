@@ -1,6 +1,6 @@
 ---
 name: beta-mod-artefatos
-description: Transformar modelagem funcional já consolidada da família Beta MOD em artefatos finais sem alterar regras. Usar quando o usuário ou a @beta-mod solicitar DOCX, atualização de documento, Markdown, texto para copiar, fluxograma, checklist de QA, comparação ou resumo; aplicar a gramática documental CENCIHUB, composição macro→micro, voz normativa, tabelas/listas adequadas e validação visual do DOCX. Não consolidar regra de negócio, não persistir Dossiê e não incorporar especialidades de outras Skills.
+description: Transformar modelagem funcional já consolidada da família Beta MOD em artefatos finais sem alterar regras. Usar quando a @beta-mod solicitar materialização ou quando o usuário fornecer texto final/base documental ou declarar explicitamente que o conteúdo está aprovado, consolidado ou pronto para materialização. Aplicar a gramática documental CENCIHUB, composição macro→micro, voz normativa, padrão visual Beta MOD e validação visual do DOCX. Não consolidar regra de negócio, não persistir Dossiê e não incorporar especialidades de outras Skills.
 ---
 
 # Beta MOD Artefatos
@@ -12,6 +12,16 @@ Transformar conteúdo funcional já consolidado pela `@beta-mod` em artefatos fi
 Atuar como módulo de composição documental e materialização. Não decidir regra de negócio, não resolver divergência e não produzir interpretação funcional concorrente com a `@beta-mod`.
 
 Preservar somente conhecimento de estrutura documental, voz, representação, composição visual e geração de artefatos. Não incorporar persistência do Dossiê, prioridade de fontes, análise temática de relatórios, frontend, Figma, processamento, permissões ou QA funcional final.
+
+## Relação com a Skill genérica `docx`
+
+`beta-mod-artefatos` é a autoridade sobre conteúdo documental, gramática CENCIHUB, composição, voz, estrutura, fidelidade ao conteúdo consolidado e padrão visual específico da família Beta MOD.
+
+A Skill genérica `docx`, quando disponível e aplicável, atua somente como camada técnica de criação/manipulação do arquivo, edição estrutural, renderização, inspeção técnica e operações OOXML necessárias.
+
+A Skill genérica `docx` não poderá reinterpretar regra funcional, resumir conteúdo, reorganizar o documento por preferência nem substituir o padrão documental definido por `beta-mod-artefatos`.
+
+Usar a Skill genérica `docx` sem duplicar nela a gramática CENCIHUB: Artefatos define o que materializar e como o documento Beta MOD deverá se apresentar; `docx` executa tecnicamente essas decisões.
 
 ## Recursos obrigatórios por tipo de saída
 
@@ -33,7 +43,12 @@ Usar [scripts/build_modelagem_docx.py](scripts/build_modelagem_docx.py) para DOC
 
 ## Entrada esperada
 
-Receber da `@beta-mod`, ou diretamente do usuário quando o conteúdo já estiver consolidado:
+Receber da `@beta-mod` conteúdo funcional já consolidado ou, em chamada direta, considerar o material consolidado somente quando houver evidência clara de pelo menos uma destas condições:
+
+- o usuário forneceu texto final ou arquivo-base documental a ser materializado/editado; ou
+- o usuário declarou explicitamente que o conteúdo está aprovado, consolidado ou pronto para materialização.
+
+A entrada poderá conter:
 
 - conteúdo funcional vigente e publicável;
 - título da modelagem;
@@ -46,6 +61,12 @@ Receber da `@beta-mod`, ou diretamente do usuário quando o conteúdo já estive
 - arquivo-base, quando houver atualização de documento existente.
 
 Não preencher por inferência regra, mensagem, fórmula, permissão, processamento, dado ou resultado ausente.
+
+### Gate para chamada direta
+
+Quando a solicitação direta ainda exigir definição funcional, discussão de comportamento, comparação de regras, decisão entre alternativas, resolução de divergência, complementação de lacuna funcional ou interpretação de fonte, devolver o ponto à `@beta-mod` em vez de assumir que o material está consolidado.
+
+Não criar perguntas por precaução documental. Só devolver ou solicitar consolidação quando houver risco real de Artefatos precisar decidir comportamento, dado, cálculo, permissão, mensagem, processamento ou resultado.
 
 ## Fluxo de criação de DOCX
 
@@ -60,7 +81,8 @@ Não preencher por inferência regra, mensagem, fórmula, permissão, processame
 9. Renderizar o DOCX.
 10. Revisar visualmente todas as páginas.
 11. Corrigir paginação, quebras, sobreposição, corte, repetição de cabeçalho, alinhamento ou espaçamento antes da entrega.
-12. Entregar o artefato sem inserir conteúdo de bastidor ou contexto não publicável.
+12. Renderizar novamente após qualquer correção.
+13. Entregar o artefato sem inserir conteúdo de bastidor ou contexto não publicável.
 
 ## Fluxo de atualização de DOCX existente
 
@@ -163,18 +185,22 @@ Usar `scripts/build_modelagem_docx.py` quando:
 
 Não usar o script para editar arquivo existente quando a reconstrução puder apagar conteúdo que o usuário deseja manter.
 
+O gerador apenas materializa o contrato JSON consolidado. Não interpretar, resumir, completar ou reorganizar regra funcional durante a geração.
+
 Após gerar:
 
 1. renderizar;
 2. revisar todas as páginas;
-3. confirmar tabela de metadados;
+3. confirmar tabela de metadados, incluindo a regressão prioritária descrita nas referências;
 4. confirmar títulos;
 5. confirmar tabelas;
 6. confirmar quebras;
 7. confirmar imagens;
 8. confirmar ausência de sobreposição;
 9. confirmar repetição de cabeçalho em tabela longa;
-10. confirmar que não existe quadro externo envolvendo todo o corpo.
+10. confirmar que não existe quadro externo envolvendo todo o corpo;
+11. corrigir defeitos observáveis;
+12. renderizar novamente após correção.
 
 ## Outros artefatos
 
@@ -188,15 +214,15 @@ Representar somente fluxo já confirmado. Não criar etapa para tornar o diagram
 
 ### Checklist de QA
 
-Derivar pontos verificáveis da modelagem consolidada. Não produzir plano completo de testes.
+Derivar pontos verificáveis da modelagem consolidada. Não produzir plano completo de testes nem substituir o QA funcional da família Beta MOD.
 
 ### Resumo
 
-Condensar sem alterar condições, exceções ou resultados essenciais.
+Condensar somente quando esse for o artefato solicitado e sem alterar condições, exceções ou resultados essenciais.
 
 ### Comparação
 
-Separar explicitamente versão vigente, diferença e impacto sem decidir regra ausente.
+Materializar comparação já consolidada, separando explicitamente versão vigente, diferença e impacto sem decidir regra ausente.
 
 ## Saída para a Beta MOD
 
@@ -219,9 +245,11 @@ Para alteração do gerador, da gramática ou da especificação visual:
 1. criar exemplos neutros que representem arquétipos distintos;
 2. gerar DOCX sem usar modelagens históricas como entrada;
 3. renderizar;
-4. comparar estrutura, voz, tabelas, cabeçalho, paginação e layout com a gramática consolidada;
+4. comparar estrutura, voz, tabelas, cabeçalho, bloco de metadados, paginação e layout com a gramática consolidada;
 5. corrigir a Skill ou o gerador, e não o documento individual, quando o problema for sistemático;
 6. repetir até não haver regressão material.
+
+Tratar o bloco de metadados como componente de regressão visual prioritária. Preservar seu posicionamento atual e somente corrigi-lo quando a renderização demonstrar defeito observável.
 
 Não armazenar os DOCXs históricos de referência dentro da Skill.
 
